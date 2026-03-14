@@ -9,7 +9,9 @@ const getPortFromArgs = () => {
   if (argPort) {
     return argPort
   }
-  const portFlagIndex = args.findIndex((arg) => arg === '--port' || arg === '-p')
+  const portFlagIndex = args.findIndex(
+    (arg) => arg === '--port' || arg === '-p',
+  )
   if (portFlagIndex !== -1 && args[portFlagIndex + 1]) {
     return args[portFlagIndex + 1]
   }
