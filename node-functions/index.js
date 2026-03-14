@@ -1,7 +1,6 @@
-import { createRequire } from 'node:module'
+import serverModule from '../server.js'
 
-const require = createRequire(import.meta.url)
-const { consturctServer } = require('../server')
+const { consturctServer } = serverModule
 
 let app
 
