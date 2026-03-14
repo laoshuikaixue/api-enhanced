@@ -2,7 +2,6 @@ const fs = require('fs')
 const path = require('path')
 const os = require('os')
 const serverless = require('serverless-http')
-const { constructServer } = require('../server')
 
 let handler
 
@@ -16,6 +15,7 @@ async function ensureAnonymousToken() {
 async function createHandler() {
   await ensureAnonymousToken()
   const generateConfig = require('../generateConfig')
+  const { constructServer } = require('../server')
   await generateConfig()
   const app = await constructServer()
   return serverless(app)
