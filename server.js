@@ -127,6 +127,17 @@ async function checkVersion() {
   })
 }
 
+function resolveRuntimePath(dirName) {
+  const candidates = [
+    path.join(__dirname, dirName),
+    path.join(__dirname, '..', dirName),
+    path.join(process.cwd(), dirName),
+  ]
+  return (
+    candidates.find((candidate) => fs.existsSync(candidate)) || candidates[0]
+  )
+}
+
 /**
  * Construct the server of NCM API.
  *
@@ -137,11 +148,13 @@ async function constructServer(moduleDefs) {
   const app = express()
   const { CORS_ALLOW_ORIGIN } = process.env
   app.set('trust proxy', true)
+  const publicPath = resolveRuntimePath('public')
+  const modulesPath = resolveRuntimePath('module')
 
   /**
    * Serving static files
    */
-  app.use(express.static(path.join(__dirname, 'public')))
+  app.use(express.static(publicPath))
   /**
    * CORS & Preflight request
    */
@@ -216,8 +229,7 @@ async function constructServer(moduleDefs) {
    * Load every modules in this directory
    */
   const moduleDefinitions =
-    moduleDefs ||
-    (await getModulesDefinitions(path.join(__dirname, 'module'), special))
+    moduleDefs || (await getModulesDefinitions(modulesPath, special))
 
   for (const moduleDef of moduleDefinitions) {
     // Register the route.

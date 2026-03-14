@@ -11,7 +11,18 @@ if (!fs.existsSync(anonymousTokenPath)) {
 /** @type {Record<string, any>} */
 let obj = {}
 
-const modulePath = path.join(__dirname, 'module')
+const resolveModulesPath = () => {
+  const candidates = [
+    path.join(__dirname, 'module'),
+    path.join(__dirname, '..', 'module'),
+    path.join(process.cwd(), 'module'),
+  ]
+  return (
+    candidates.find((candidate) => fs.existsSync(candidate)) || candidates[0]
+  )
+}
+
+const modulePath = resolveModulesPath()
 const moduleFiles = fs.readdirSync(modulePath).reverse()
 
 let requestModule = null
