@@ -14,7 +14,14 @@ async function ensureAnonymousToken() {
 
 async function createHandler() {
   await ensureAnonymousToken()
-  const generateConfig = require('../generateConfig')
+  const generateConfigModule = require('../generateConfig')
+  const generateConfig =
+    typeof generateConfigModule === 'function'
+      ? generateConfigModule
+      : generateConfigModule?.default
+  if (typeof generateConfig !== 'function') {
+    throw new TypeError('generateConfig export is invalid')
+  }
   const { constructServer } = require('../server')
   await generateConfig()
   const app = await constructServer()
