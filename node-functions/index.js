@@ -1,8 +1,11 @@
+import { createRequire } from 'node:module'
+
+const require = createRequire(import.meta.url)
 const { consturctServer } = require('../server')
 
 let app
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (!app) {
     app = await consturctServer()
   }
