@@ -16,15 +16,9 @@ module.exports = (query, request) => {
     activityId: query.activityId || '6501202',
     drawCount: query.drawCount || '1',
   }
-  // TODO: 如何传递 checkToken
-  const optionQuery = { ...query }
-  if (query.checkToken) {
-    data.checkToken = query.checkToken
-    delete query.checkToken
-  }
   return request(
     `/api/middle/play/do/lottery`,
     data,
-    createOption(optionQuery, 'eapi', 'v2'),
+    createOption(query, 'eapi', 'v3'),
   )
 }

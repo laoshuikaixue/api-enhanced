@@ -8,6 +8,16 @@
   <link rel="icon" href="docs/netease.png" />
   <title>云小编每日抽奖 - 网易云音乐 API Enhanced</title>
   <style>
+    :root {
+      --gold: #fdcb6e;
+      --text-light: #636e72;
+      --fg: #333;
+      --muted: #666;
+      --border: #ddd;
+      --bg: #f5f5f5;
+      --panel: #ffffff;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -15,221 +25,83 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 50%, #fce4ec 100%);
       min-height: 100vh;
-      background: #f5f5f5;
-      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      color: var(--text);
+      line-height: 1.5;
     }
 
     .container {
       max-width: 520px;
-      margin: 40px auto;
-      background: white;
-      border-radius: 12px;
-      padding: 32px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-      font-size: 24px;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 24px;
-      text-align: center;
-    }
-
-    .subtitle b {
-      color: #d63031;
-    }
-
-    /* ---- Section ---- */
-    .section {
-      margin-bottom: 24px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #eee;
-    }
-
-    .section:last-of-type {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .section-header {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
-    .section-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #333;
+    /* 标题编辑卡片 */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: var(--transition);
     }
 
-    /* ---- Form Elements ---- */
-    .form-group {
-      margin-bottom: 16px;
-      text-align: left;
+    .title-section {
+      text-align: center;
     }
 
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: #555;
-      margin-bottom: 6px;
-    }
-
-    label .tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 400;
-      padding: 1px 6px;
-      border-radius: 3px;
-      margin-left: 6px;
-    }
-
-    label .tag.o {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    textarea {
+    .title-input {
       width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-size: 14px;
+      border: 2px solid transparent;
+      border-radius: var(--radius-sm);
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 0.6rem 1rem;
+      color: var(--text);
+      background: #fafafa;
+      transition: var(--transition);
       outline: none;
       font-family: inherit;
-      transition: border-color 0.2s;
     }
 
-    input[type="text"]:focus,
-    input[type="number"]:focus,
-    textarea:focus {
-      border-color: #333;
+    .title-input:hover {
+      background: #f5f3ff;
     }
 
-    textarea {
-      resize: vertical;
+    .title-input:focus {
+      border-color: var(--primary-light);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(124, 108, 240, 0.06);
     }
 
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      background: #333;
-      color: white;
-      font-size: 15px;
-      font-weight: 500;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-      border: none;
+    .title-hint {
+      font-size: 0.8rem;
+      color: #b2bec3;
+      margin-top: 0.4rem;
+    }
+
+    /* 抽奖主卡片 */
+    .lottery-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 2rem 2rem 2.2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
       text-align: center;
-      margin-top: 16px;
-    }
-
-    .btn:hover {
-      background: #555;
-    }
-
-    .btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-
-    .btn-sm {
-      display: inline-block;
-      width: auto;
-      padding: 6px 16px;
-      background: #333;
-      color: white;
-      font-size: 13px;
-      font-weight: 500;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-      border: none;
-      text-align: center;
-      margin-top: 0;
-    }
-
-    .btn-sm:hover {
-      background: #555;
-    }
-
-    .btn-sm:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-
-    .btn-sm.gray {
-      background: #6b7280;
-    }
-
-    .btn-sm.gray:hover {
-      background: #4b5563;
-    }
-
-    .btn-sm.gray:disabled {
-      background: #d1d5db;
-    }
-
-    .btn-sm.green {
-      background: #059669;
-    }
-
-    .btn-sm.green:hover {
-      background: #047857;
-    }
-
-    .btn-sm.green:disabled {
-      background: #a7f3d0;
-    }
-
-    .quick-fill {
-      margin-top: 5px;
-      font-size: 12px;
-      color: #666;
-    }
-
-    .quick-fill span {
-      color: #0066cc;
-      cursor: pointer;
-      margin-right: 8px;
-    }
-
-    .quick-fill span:hover {
-      text-decoration: underline;
-    }
-
-    /* ---- Lottery Display ---- */
-    .lottery-display {
-      text-align: center;
-      padding: 24px 16px;
-      background: #f9fafb;
-      border-radius: 8px;
-      border: 1px solid #eee;
-      margin-bottom: 16px;
     }
 
     .rolling-display {
       font-size: 2.4rem;
       font-weight: 800;
-      color: #333;
+      color: var(--primary);
       min-height: 4rem;
       display: flex;
       align-items: center;
@@ -239,19 +111,19 @@
     }
 
     .rolling-display.idle {
-      color: #999;
-      font-size: 1.2rem;
+      color: #c4b5fd;
+      font-size: 1.3rem;
       font-weight: 500;
     }
 
     /* ---- Winner Result ---- */
     .winner-display {
-      background: #f0fdf4;
-      border: 1px solid #86efac;
-      border-radius: 8px;
-      padding: 20px 16px;
-      margin-top: 16px;
-      text-align: center;
+      background: linear-gradient(135deg, #fff9e6, #fff3cd);
+      border: 2px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1rem 0 1.5rem;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .winner-label {
@@ -267,6 +139,12 @@
       color: #dc2626;
       letter-spacing: 1px;
       word-break: break-all;
+    }
+
+    .winner-img {
+      width: 200px;
+      height: 200px;
+      margin: -20px;
     }
 
     .confetti-row {
@@ -294,7 +172,60 @@
       to   { transform: translateY(-8px); }
     }
 
-    /* ---- Status ---- */
+    /* 按钮 */
+    .btn {
+      padding: 0.9rem 2.5rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.5px;
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-lottery {
+      background: linear-gradient(135deg, #fd79a8, #e84393);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(253, 121, 168, 0.35);
+    }
+
+    .btn-lottery:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(253, 121, 168, 0.45);
+    }
+
+    .btn-lottery:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-lottery:disabled {
+      background: #b2bec3;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-reset {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--text-light);
+      margin-top: 0.8rem;
+      font-weight: 600;
+    }
+
+    .btn-reset:hover {
+      border-color: var(--primary-light);
+      color: var(--primary);
+      background: #f8f7ff;
+    }
+
+    /* 状态提示 */
     .status-bar {
       display: flex;
       align-items: center;
@@ -354,13 +285,14 @@
 
     /* ---- Responsive ---- */
     @media (max-width: 500px) {
-      .container {
-        padding: 20px 16px;
-        margin: 20px auto;
+
+      .card,
+      .lottery-card {
+        padding: 1.4rem 1.2rem;
       }
 
-      h1 {
-        font-size: 20px;
+      .title-input {
+        font-size: 1.3rem;
       }
 
       .rolling-display {
@@ -377,53 +309,33 @@
 
 <body>
   <div class="container">
-    <h1>云小编每日抽奖</h1>
-    <p class="subtitle">每次抽奖消耗 <b>200 个曲库编辑部积分</b>，每日最多可抽奖 3 次</p>
-
-    <!-- Cookie 管理 -->
-    <div class="form-group">
-      <label for="cookieInput">令牌 <span class="tag o">可选</span></label>
-      <input type="text" id="cookieInput" placeholder="留空则默认读取本地存储的令牌" autocomplete="off" />
-      <div class="quick-fill">
-        <span onclick="readLocalCookie()">读取本地令牌</span>
-        <span onclick="clearCookie()">清除令牌</span>
-        <span onclick="saveCookie()">保存令牌</span>
-      </div>
+    <!-- 标题编辑区 -->
+    <div class="card title-section">
+      <input type="text" class="title-input" id="titleInput" value="🎉 云小编每日抽奖 🎉" autocomplete="off" disabled>
+      <div class="title-hint">每次抽奖消耗 <b>200 个曲库编辑部积分</b>，每日最多可抽奖 3 次</div>
     </div>
 
-    <!-- 抽奖区域 -->
-    <div class="section">
-      <div class="section-header">
-        <span class="section-title">每日抽奖</span>
-      </div>
-
-      <div class="lottery-display">
-        <div class="rolling-display idle" id="rollingDisplay">等待抽奖</div>
-        <div id="resultContainer"></div>
-      </div>
-
-      <button class="btn" id="lotteryBtn">
-        🎲 开始抽奖
+    <!-- 抽奖主区域 -->
+    <div class="lottery-card">
+      <div class="rolling-display idle" id="rollingDisplay">等待抽奖</div>
+      <div id="resultContainer"></div>
+      <button class="btn btn-lottery" id="lotteryBtn">
+        <span>🎲</span> 开始抽奖
       </button>
-
+      <button class="btn btn-reset" id="resetBtn">
+        <span>🔄</span> 编辑令牌
+      </button>
       <div class="status-bar" id="statusBar">
         <span class="status-dot idle" id="statusDot"></span>
         <span class="status-text" id="statusText">就绪，点击按钮开始抽奖</span>
       </div>
-    </div>
-
-    <!-- 页脚 -->
-    <div class="footer-link">
-      <a href="/">← 返回首页</a>
-      <span style="margin: 0 8px; color: #ddd;">·</span>
-      <a href="/ugc.html">云小编任务中心</a>
     </div>
   </div>
 
   <script>
     (function () {
       // ============ DOM 元素 ============
-      const cookieInput = document.getElementById('cookieInput');
+      const titleInput = document.getElementById('titleInput');
       const rollingDisplay = document.getElementById('rollingDisplay');
       const resultContainer = document.getElementById('resultContainer');
       const lotteryBtn = document.getElementById('lotteryBtn');
@@ -540,18 +452,20 @@
 
         const res = await request('middle/play/do/lottery', '&activityId=6501202&drawCount=1');
 
+        // 根据你的后端返回格式提取中奖者名称
         const winner = res.data?.prizeDetailInfoMap?.['8186002']?.prizeName;
         if (!winner) {
           throw new Error('无法解析响应数据');
         }
 
+        // [抽奖结果, 剩余机会]
         return [winner, res.data.restChance];
       }
 
       // ============ 滚动动画 ============
-      function startRollingAnimation(finalWinner) {
+      function startRollingAnimation(finalWinner, img) {
         const placeholderNames = ['🎰', '🎲', '🎯', '✨', '💫', '🌟', '🎪', '🎭'];
-        const totalDuration = 2800;
+        const totalDuration = 2000;
         const startInterval = 50;
         const endInterval = 280;
         const startTime = Date.now();
@@ -571,7 +485,8 @@
           if (progress >= 1.0) {
             clearTimeout(rollingTimer);
             rollingDisplay.textContent = finalWinner;
-            showWinnerResult(finalWinner);
+            rollingDisplay.style.display = 'none';
+            showWinnerResult(finalWinner, img);
             finishDrawing();
             return;
           }
@@ -583,16 +498,17 @@
       }
 
       function showWinnerResult(winner) {
-        resultContainer.innerHTML =
-          '<div class="winner-display">' +
-            '<div class="winner-label">🏆 恭喜中奖</div>' +
-            '<div class="winner-name">' + escapeHTML(winner) + '</div>' +
-            '<div class="confetti-row">' +
-              '<span class="confetti-emoji">🎉</span>' +
-              '<span class="confetti-emoji">🎊</span>' +
-              '<span class="confetti-emoji">✨</span>' +
-            '</div>' +
-          '</div>';
+        resultContainer.innerHTML = `
+          <div class="winner-display">
+            <div class="winner-label">🏆 恭喜中奖</div>
+            <div class="winner-name">${escapeHTML(winner)}</div>
+            <div class="confetti-row">
+              <span class="confetti-emoji">🎉</span>
+              <span class="confetti-emoji">🎊</span>
+              <span class="confetti-emoji">✨</span>
+            </div>
+          </div>
+        `;
       }
 
       function escapeHTML(str) {
@@ -615,11 +531,13 @@
         resultContainer.innerHTML = '';
         rollingDisplay.className = 'rolling-display';
         rollingDisplay.textContent = '🎰';
+        rollingDisplay.style.display = 'flex';
         setStatus('info', '正在获取抽奖结果...');
 
         try {
           const res = await fetchLotteryResult();
           setStatus('info', '抽奖成功，剩余次数 ' + res[1]);
+          // 启动滚动动画，最终定格在中奖者
           startRollingAnimation(res[0]);
         } catch (error) {
           rollingDisplay.textContent = '抽奖失败';
@@ -633,8 +551,9 @@
       // ============ 事件绑定 ============
       lotteryBtn.addEventListener('click', startLottery);
 
-      document.addEventListener('keydown', function (e) {
-        if (e.key === ' ' && document.activeElement !== cookieInput) {
+      // 空格键快捷抽奖
+      document.addEventListener('keydown', (e) => {
+        if (e.key === ' ' && document.activeElement !== titleInput) {
           e.preventDefault();
           if (!isDrawing && !lotteryBtn.disabled) {
             startLottery();
@@ -651,6 +570,12 @@
 
       // ============ 初始化 ============
       resetResult();
+
+      window.demo = function (name, chance, img) {
+        rollingDisplay.style.display = 'flex';
+        setStatus('info', '抽奖成功，剩余次数 ' + (chance || '0'));
+        startRollingAnimation(name || '演示', img || 'https://p5.music.126.net/obj/worDmcOCw6HCnzzCmsKx/61891591760/8d1c/528a/e977/10cbaa3fb39e8057be5d2560182cc5c7.png');
+      };
     })();
   </script>
 </body>
